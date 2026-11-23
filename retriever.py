@@ -2,12 +2,13 @@
 from pathlib import Path
 import chromadb
 from google import genai
+from config import get_gemini_api_key
 
 DOSSIER_DB   = str(Path.home() / "rag_db")
 MODELE_EMB   = "gemini-embedding-001"  # même modèle qu'à l'indexation : OBLIGATOIRE
 NB_RESULTATS = 4                       # nombre de chunks cités dans la réponse
 
-client_gemini = genai.Client()
+client_gemini = genai.Client(api_key=get_gemini_api_key())
 client_chroma = chromadb.PersistentClient(path=DOSSIER_DB)
 collection    = client_chroma.get_collection("mes_documents")
 

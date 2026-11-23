@@ -4,13 +4,14 @@ import time
 import chromadb
 from google import genai
 from loader import charger_documents, decouper_en_chunks
+from config import get_gemini_api_key
 
 DOSSIER_DOCS = str(Path.home() / "docs")
 DOSSIER_DB   = str(Path.home() / "rag_db")   # la DB persiste ici, sur disque
 MODELE_EMB   = "gemini-embedding-001"        # modèle d'embeddings imposé
 TAILLE_LOT   = 50  # chunks par requête API : économise le quota gratuit
 
-client_gemini = genai.Client()  # lit GEMINI_API_KEY dans l'environnement
+client_gemini = genai.Client(api_key=get_gemini_api_key())
 
 def embedder(textes: list[str]) -> list[list[float]]:
     """Appelle Gemini une fois par LOT de textes (jamais un par un).
